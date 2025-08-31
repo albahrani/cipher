@@ -39,10 +39,22 @@ Configure embeddings in `memAgent/cipher.yml`. If not specified, uses automatic 
 | **AWS Bedrock**  | `type: aws-bedrock` | `amazon.titan-embed-text-v2:0` | Yes (1024, 512, 256)       |
 | **Azure OpenAI** | `type: openai`      | `text-embedding-3-small`       | No                         |
 | **Ollama**       | `type: ollama`      | `nomic-embed-text`             | No                         |
+| **TF-IDF**       | `type: tfidf`       | Local TF-IDF                   | Yes (corpus-dependent)     |
+| **Spectral**     | `type: spectral`    | Local SVD/PCA/Laplacian        | Yes (configurable)         |
 
 ### Configuration Examples
 
 ```yaml
+# TF-IDF (local)
+embedding:
+  type: tfidf
+
+# Spectral (local)
+embedding:
+  type: spectral
+  method: svd
+  dimension: 128
+
 # OpenAI
 embedding:
   type: openai

@@ -29,6 +29,9 @@ import { VoyageEmbedder } from './backend/voyage.js';
 import { QwenEmbedder } from './backend/qwen.js';
 import { AWSBedrockEmbedder } from './backend/aws.js';
 import { LMStudioEmbedder } from './backend/lmstudio.js';
+import { TfIdfEmbedder } from './backend/tfidf.js';
+import { SpectralEmbedder } from './backend/spectral.js';
+
 
 /**
  * Embedding factory interface
@@ -210,16 +213,66 @@ export class LMStudioEmbeddingFactory implements EmbeddingFactory {
 }
 
 /**
+ * TF-IDF embedding factory
+ */
+export class TfIdfEmbeddingFactory implements EmbeddingFactory {
+	async createEmbedder(config: BackendConfig): Promise<Embedder> {
+		if (config.type !== 'tfidf') {
+			throw new EmbeddingValidationError('Invalid config type for TF-IDF factory');
+		}
+		return new TfIdfEmbedder(config);
+	}
+
+	validateConfig(config: unknown): boolean {
+		try {
+			return typeof config === 'object' && config !== null && (config as any).type === 'tfidf';
+		} catch {
+			return false;
+		}
+	}
+
+	getProviderType(): string {
+		return 'tfidf';
+	}
+}
+
+/**
+ * Spectral embedding factory
+ */
+export class SpectralEmbeddingFactory implements EmbeddingFactory {
+	async createEmbedder(config: BackendConfig): Promise<Embedder> {
+		if (config.type !== 'spectral') {
+			throw new EmbeddingValidationError('Invalid config type for Spectral factory');
+		}
+		return new SpectralEmbedder(config);
+	}
+
+	validateConfig(config: unknown): boolean {
+		try {
+			return typeof config === 'object' && config !== null && (config as any).type === 'spectral';
+		} catch {
+			return false;
+		}
+	}
+
+	getProviderType(): string {
+		return 'spectral';
+	}
+}
+
+/**
  * Registry of available embedding factories
  */
 export const EMBEDDING_FACTORIES = new Map<string, EmbeddingFactory>([
-	['openai', new OpenAIEmbeddingFactory()],
-	['gemini', new GeminiEmbeddingFactory()],
-	['ollama', new OllamaEmbeddingFactory()],
-	['voyage', new VoyageEmbeddingFactory()],
-	['qwen', new QwenEmbeddingFactory()],
-	['aws-bedrock', new AWSBedrockEmbeddingFactory()],
-	['lmstudio', new LMStudioEmbeddingFactory()],
+		['openai', new OpenAIEmbeddingFactory()],
+		['gemini', new GeminiEmbeddingFactory()],
+		['ollama', new OllamaEmbeddingFactory()],
+		['voyage', new VoyageEmbeddingFactory()],
+		['qwen', new QwenEmbeddingFactory()],
+		['aws-bedrock', new AWSBedrockEmbeddingFactory()],
+		['lmstudio', new LMStudioEmbeddingFactory()],
+		['tfidf', new TfIdfEmbeddingFactory()],
+		['spectral', new SpectralEmbeddingFactory()],
 ]);
 
 /**

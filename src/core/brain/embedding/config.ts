@@ -107,6 +107,22 @@ export const LMStudioEmbeddingConfigSchema = z.object({
 });
 
 /**
+ * TF-IDF embedding configuration schema
+ */
+export const TfIdfEmbeddingConfigSchema = z.object({
+	type: z.literal('tfidf'),
+});
+
+/**
+ * Spectral embedding configuration schema
+ */
+export const SpectralEmbeddingConfigSchema = z.object({
+	type: z.literal('spectral'),
+	method: z.enum(['svd', 'pca', 'laplacian']).default('svd'),
+	dimension: z.number().optional(),
+});
+
+/**
  * Main embedding configuration schema
  */
 export const EmbeddingConfigSchema = z.union([
@@ -117,6 +133,8 @@ export const EmbeddingConfigSchema = z.union([
 	QwenEmbeddingConfigSchema,
 	AWSBedrockEmbeddingConfigSchema,
 	LMStudioEmbeddingConfigSchema,
+	TfIdfEmbeddingConfigSchema,
+	SpectralEmbeddingConfigSchema,
 ]);
 
 /**

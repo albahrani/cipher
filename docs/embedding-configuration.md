@@ -14,6 +14,8 @@ Embeddings convert text into numerical vectors that represent semantic meaning. 
 | Provider         | Config              | Fallback Model                 | Fixed Dimensions           |
 | ---------------- | ------------------- | ------------------------------ | -------------------------- |
 | **OpenAI**       | `type: openai`      | `text-embedding-3-small`       | No                         |
+| **TF-IDF**       | `type: tfidf`       | Local TF-IDF                   | Yes (corpus-dependent)     |
+| **Spectral**     | `type: spectral`    | Local SVD/PCA/Laplacian        | Yes (configurable)         |
 | **Gemini**       | `type: gemini`      | `gemini-embedding-001`         | No                         |
 | **Qwen**         | `type: qwen`        | `text-embedding-v3`            | Yes (1024, 768, 512)       |
 | **Voyage**       | `type: voyage`      | `voyage-3-large`               | Yes (1024 only)            |
@@ -149,6 +151,44 @@ embedding:
 - `bge-large` - High performance
 - `bge-base` - Balanced
 - `bge-small` - Compact
+
+### TF-IDF (Local, No LLM Required)
+
+```yaml
+embedding:
+  type: tfidf
+```
+
+**Description:**
+- Uses local TF-IDF vectorization for document embeddings
+- No API key, cloud, or LLM required
+- Fast, cost-free, and privacy-preserving
+- Ideal for small/medium datasets and local development
+
+**Usage Tips:**
+- No additional configuration is required for TF-IDF
+
+### Spectral (Local, No LLM Required)
+```yaml
+embedding:
+  type: spectral
+  method: svd        # Options: svd, pca, laplacian (all use SVD internally)
+  dimension: 128     # Optional, default: min(128, corpus size)
+```
+
+**Description:**
+- Uses local spectral decomposition (SVD/PCA/Laplacian) for document embeddings
+- No API key, cloud, or LLM required
+- Fast, cost-free, and privacy-preserving
+- Ideal for small/medium datasets and local development
+
+**How it works:**
+- Fits a spectral model (SVD) to your corpus and projects new documents into the same space
+- All methods use SVD due to library limitations
+
+**Usage Tips:**
+- Set `dimension` to control embedding size (higher = more detail, lower = faster)
+- Use for semantic search, clustering, or memory features without LLM costs
 
 **Smart Fallback Logic:**
 1. **First try**: Uses the same model loaded for LLM as the embedding model (many models support both)

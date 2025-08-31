@@ -162,6 +162,19 @@ export interface LMStudioEmbeddingConfig extends EmbeddingConfig {
 /**
  * Union type for all supported backend configurations
  */
+export interface TfIdfEmbeddingConfig extends EmbeddingConfig {
+	type: 'tfidf';
+}
+
+/**
+ * Spectral-specific embedding configuration
+ */
+export interface SpectralEmbeddingConfig extends EmbeddingConfig {
+	type: 'spectral';
+	method?: 'svd' | 'pca' | 'laplacian';
+	dimension?: number;
+}
+
 export type BackendConfig =
 	| OpenAIEmbeddingConfig
 	| GeminiEmbeddingConfig
@@ -169,7 +182,9 @@ export type BackendConfig =
 	| VoyageEmbeddingConfig
 	| QwenEmbeddingConfig
 	| AWSBedrockEmbeddingConfig
-	| LMStudioEmbeddingConfig;
+	| LMStudioEmbeddingConfig
+	| TfIdfEmbeddingConfig
+	| SpectralEmbeddingConfig;
 
 /**
  * Result from embedding operation with metadata

@@ -74,12 +74,12 @@ llm:
   # baseURL: $LMSTUDIO_BASE_URL
 
 # Embedding configuration: ONLY ONE of the following
-OpenAI:
 
-embedding:
-  type: openai
-  model: text-embedding-3-small
-  apiKey: $OPENAI_API_KEY
+# OpenAI:
+#embedding:
+#  type: openai
+#  model: text-embedding-3-small
+#  apiKey: $OPENAI_API_KEY
 
 # Gemini:
 # embedding:
@@ -135,6 +135,16 @@ embedding:
 #   dimensions: 1536                       # Optional: depends on model
 #   timeout: 30000
 #   maxRetries: 3
+
+# Tf-IDF (local, no API key required):
+embedding:
+   type: tfidf
+
+# Spectral (local, no API key required):
+# embedding:
+#   type: spectral
+#   method: svd        # Options: svd, pca, laplacian (all use SVD internally)
+#   dimension: 128     # Optional, default: min(128, corpus size)
 
 # Disable embeddings entirely:
 # embedding:

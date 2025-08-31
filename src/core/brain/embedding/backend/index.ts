@@ -19,6 +19,8 @@ export type {
 	QwenEmbeddingConfig,
 	AWSBedrockEmbeddingConfig,
 	LMStudioEmbeddingConfig,
+	TfIdfEmbeddingConfig,
+	SpectralEmbeddingConfig,
 	EmbeddingResult,
 	BatchEmbeddingResult,
 } from './types.js';
@@ -41,3 +43,5 @@ export { VoyageEmbedder } from './voyage.js';
 export { QwenEmbedder } from './qwen.js';
 export { AWSBedrockEmbedder } from './aws.js';
 export { LMStudioEmbedder } from './lmstudio.js';
+export { TfIdfEmbedder } from './tfidf.js';
+export { SpectralEmbedder } from './spectral.js';
